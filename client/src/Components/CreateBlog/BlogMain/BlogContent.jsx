@@ -38,7 +38,7 @@ const BlogContent = () => {
       <div className='blogContent'>
         <div className='details'>
           <div className='blog-img'>
-            <img src={cards[0].cover} alt="" />
+            <img src={blogContent.imageUrl || cards[0].cover} alt="Thumbnail Image" />
           </div>
           <h2 className='blog-title'>{blogContent.title}</h2>
           <p className='author-date'>

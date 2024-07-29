@@ -20,6 +20,7 @@ function CreateBlog() {
   const [blogContent, setBlogContent] = useState([]);
   const [blogImages, setBlogImages] = useState([]);
   const contentEditorRef = useRef(null);
+  const formRef = useRef(null);
 
 
   useEffect(() => {
@@ -93,6 +94,8 @@ function CreateBlog() {
 
   const handleImageChange = (event) => {
     setImage(event.target.files[0]);
+    console.log(event.target.files[0]);
+    
   };
 
   const handleSubmit =async (event) => {
@@ -104,14 +107,23 @@ function CreateBlog() {
     console.log('Content:', content);
     console.log('Image:', image);
     console.log('Author:', author);
-    const postData = {
-      title,
-      content,
-      author,
-    };
+    const postData = new FormData();
+    postData.append('file', image);
+    postData.append('title', title);
+    postData.append('content', content);
+    postData.append('author', author);
+    console.log(postData)
+    const config = {headers: {'Content-Type': 'multipart/form-data'}}
+    // console.log(formData)
+    // const postData = {
+    //   title,
+    //   content,
+    //   author,
+    // };
+    
     toast.loading('Submitting...');
     try {
-      const response = await axios.post(`${apiUrl}/posts/`, postData);
+      const response = await axios.post(`${apiUrl}/posts/`, postData,config);
       toast.dismiss();
       toast.success('Submitted successfully!');
       console.log('New Post:', response.data);
@@ -137,7 +149,7 @@ function CreateBlog() {
             <div className="title-bar">
               <h5>Write your blog</h5>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} ref={formRef} encType={'multipart/form-data'}>
               <div className="form-group mb-3">
                 <label htmlFor="title" className="form-label">
                   Title
@@ -219,7 +231,7 @@ function CreateBlog() {
                   className="large-editor"
                 />
               </div>
-              {/* <div className="form-group mb-3 ima">
+               <div className="form-group mb-3 ima">
                 <label htmlFor="image" className="form-label">Upload Image</label>
                 <input
                   type="file"
@@ -228,7 +240,7 @@ function CreateBlog() {
                   onChange={handleImageChange}
                   style={{ height: '40px', fontSize: '18px' }}
                 />
-              </div> */}
+              </div> 
               <div className="form-group">
                 <button type="submit" className="btn btn-primary">
                   Publish

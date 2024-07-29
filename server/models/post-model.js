@@ -7,6 +7,7 @@ const postSchema = new mongoose.Schema({
   content: { type: String, required: true },
   author: { type: String, required: true },
   date: { type: Date, default: Date.now },
+  imageUrl: { type: String,required: true }, 
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 });
 

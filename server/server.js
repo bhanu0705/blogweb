@@ -12,13 +12,13 @@ const errorHandler = require('./middlewares/errorHandler');
 dotenv.config();
 
 const app = express();
-app.use(express.json())
 const PORT = process.env.PORT || 5000;
 
 // Connect to database
 connectDB();
 
 // Middleware
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use(cors());
 

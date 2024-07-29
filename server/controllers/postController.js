@@ -1,5 +1,6 @@
 // controllers/postController.js
 const Post = require('../models/post-model');
+const uploadOnCloudinary = require('../utils/cloudinary');
 
 exports.getAllPosts = async (req, res) => {
   try {
@@ -31,11 +32,15 @@ exports.getPostById = async (req, res) => {
   }
 };
 
-exports.createPost = async (req, res) => {
+exports.createPost = async (req, res) => {  
+  const localFilePath = req.file.path
+  const uploadedImage = await uploadOnCloudinary(localFilePath)
+  if (!uploadedImage) return res.status(500).json({ message: 'Failed to upload image' });
   const post = new Post({
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
+    imageUrl : uploadedImage.url
   });
   try {
     const newPost = await post.save();
