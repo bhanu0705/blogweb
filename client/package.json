@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@google/generative-ai": "^0.14.1",
     "axios": "^1.7.2",
+    "blogweb": "file:",
     "bootstrap": "^5.3.3",
     "jodit-react": "^4.1.2",
     "node-fetch": "^3.3.2",

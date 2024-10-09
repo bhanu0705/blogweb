@@ -10,9 +10,9 @@ const commentRoutes = require('./routes/commentRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 5000;
+console.log('MONGO_URI:', process.env.MONGO_URI);
 
 // Connect to database
 connectDB();
