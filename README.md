@@ -19,6 +19,7 @@ Before you begin, ensure you have the following:
    ```bash
    cp example.env .env
 2. **Configure Your API Keys:**
+   
    -**MongoDB Configuration**
    MONGODB_URI=your_mongodb_connection_string
    
