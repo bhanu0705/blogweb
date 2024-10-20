@@ -1,0 +1,80 @@
+
+
+  /* General Styles */
+body {
+    background-color: #f0f8ff; /* Light blue background */
+    font-family: 'Arial', sans-serif;
+    color: #000;
+    margin: 0 auto;
+  }
+  
+  h1 {
+    color: #1e90ff; /* DodgerBlue for headings */
+    text-align: center;
+  }
+  
+  /* Container for both login and registration forms */
+  .login-register {
+    max-width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for elevation */
+  }
+   
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+  /* Form inputs */
+  .login-form input, .register-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;/* Blue borders for inputs */
+    border-radius: 5px;
+  }
+  
+  /* Buttons */
+  .login-btn, .register-btn {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    background-color: #1e90ff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .login-btn:hover, .register-btn:hover {
+    background-color: #000; /* Change to black on hover */
+    color: white;
+  }
+  
+  /* Footer Links (Forgot password & Register link) */
+  .login-footer {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .forgot-password, .register-link, .login-link {
+    color: #1e90ff; /* Blue links */
+    text-decoration: none;
+    padding:10px ;
+  }
+  
+  .forgot-password:hover, .register-link:hover, .login-link:hover {
+    text-decoration: underline;
+    color: #000; /* Turn black on hover */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .login-register {
+      width: 100%; /* Full width on small screens */
+      margin: 20px;
+    }
+  }

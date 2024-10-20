@@ -6,7 +6,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');
-
+const registerRoute=require('./routes/registerRoute');
+const loginRoute=require('./routes/loginRoute');
 const errorHandler = require('./middlewares/errorHandler');
 
 dotenv.config();
@@ -25,7 +26,8 @@ app.use(cors());
 // Routes
 app.use('/posts', postRoutes);
 
-
+app.post('/register',registerRoute);
+app.post('/login',loginRoute);
 // Error handling middleware
 app.use(errorHandler);
 
