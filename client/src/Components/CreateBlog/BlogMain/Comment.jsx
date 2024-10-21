@@ -1,15 +1,18 @@
-import React from 'react'
-import './Comment.css'
+import React from 'react';
+import './Comment.css';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-const apiUrl = import.meta.env.VITE_API_URL
-const comment = () => {
+
+const apiUrl = import.meta.env.VITE_API_URL;
+
+const Comment = () => { 
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [commentContent, setCommentContent] = React.useState('');
   const [comments, setComments] = React.useState([]);
-  const { id : postID } = useParams(); 
+  const { id: postID } = useParams();
+
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
@@ -23,16 +26,28 @@ const comment = () => {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const commentData = { username : name , comment : commentContent };
+    event.preventDefault(); // Prevent page refresh
+    const commentData = { username: name, comment: commentContent };
     console.log(commentData);
+
     toast.loading('Submitting...');
+    
     try {
       const response = await axios.post(`${apiUrl}/posts/${postID}/comments/`, commentData);
       toast.dismiss();
       toast.success('Submitted successfully!');
       console.log('New Comment:', response.data);
-      setComments((prevComments) => [...prevComments, response.data]);
+      
+      const newComment = {
+        username: name,
+        comment: commentContent,
+        _id: response.data._id, 
+        createdAt: new Date().toISOString(), 
+        __v: 0
+    };
+
+      setComments((prevComments) => [...prevComments, newComment]);
+
       setName('');
       setEmail('');
       setCommentContent('');
@@ -41,8 +56,8 @@ const comment = () => {
       toast.error('Failed to submit!');
       console.error('Error:', error);
     }
-    // Handle form submission logic here
-  }
+  };
+
   React.useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -68,6 +83,7 @@ const comment = () => {
                 placeholder="Your Name"
                 value={name}
                 onChange={handleNameChange}
+                required
               />
             </div>
             <div>
@@ -76,6 +92,7 @@ const comment = () => {
                 placeholder="Your Email"
                 value={email}
                 onChange={handleEmailChange}
+                required
               />
             </div>
           </div>
@@ -86,6 +103,7 @@ const comment = () => {
               cols="50"
               value={commentContent}
               onChange={handleCommentContentChange}
+              required
             />
           </div>
           <button type="submit">Post Comment</button>
@@ -97,7 +115,7 @@ const comment = () => {
           comments.map((comment) => (
             <div key={comment.id} className="comment">
               <h4>{comment.username}</h4>
-              <p>{comment.comment}</p>
+              <p>{comment.comment && typeof comment.comment === 'string' ? comment.comment : comment.Comment}</p>
             </div>
           ))
         ) : (
@@ -106,5 +124,6 @@ const comment = () => {
       </div>
     </div>
   );
-}
-export default comment
+};
+
+export default Comment;
