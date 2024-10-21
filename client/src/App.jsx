@@ -1,4 +1,3 @@
-// App.js
 import { React, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
@@ -9,58 +8,50 @@ import BlogContent from './Components/CreateBlog/BlogPage';
 import LoginRegister from './Components/Login/LoginRegister';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Manage login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Manage login state
 
-  const handleLogin = () => {
-    setIsLoggedIn(true); // Set login state to true when login is successful
-    localStorage.setItem('isLoggedIn', 'true');
-  };
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true');
+  };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false); // Set login state to false on logout
-    localStorage.removeItem('isLoggedIn'); // Remove login status from local storage
-  };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('isLoggedIn');
+  };
 
-  const checkLoginStatus = () => {
-    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    setIsLoggedIn(loggedIn);
-  };
+  const checkLoginStatus = () => {
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
+  };
 
-  // Call checkLoginStatus on component mount
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
 
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route
-            path="/login"
-            element={
-              !isLoggedIn ? (
-                <LoginRegister onLogin={handleLogin} />
-              ) : (
-                <Navigate to="/" />
-              )
-            }
-          />
-          <Route 
-            path="/" 
-            element={
-              <LandingPage 
-                isLoggedIn={isLoggedIn} 
-                handleLogout={handleLogout} 
-              /> 
-            } 
-          />
-          <Route path="/CreateBlog" element={<Blog />} />
-          <Route path="/BlogPage/:id" element={<BlogContent />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/login"
+            element={!isLoggedIn ? <LoginRegister onLogin={handleLogin} /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/"
+            element={<LandingPage isLoggedIn={isLoggedIn} handleLogout={handleLogout} />}
+          />
+          {/* Pass isLoggedIn and handleLogout to Blog component */}
+          <Route
+            path="/CreateBlog"
+            element={isLoggedIn ? <Blog isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> : <Navigate to="/login" />}
+          />
+          <Route path="/BlogPage/:id" element={<BlogContent />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 };
 
 export default App;
