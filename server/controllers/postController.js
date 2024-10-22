@@ -40,6 +40,7 @@ exports.createPost = async (req, res) => {
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
+    email: req.body.email,
     imageUrl : uploadedImage.url
   });
   try {
@@ -49,7 +50,17 @@ exports.createPost = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
+// In controllers/postController.js
+exports.getPostsByEmail = async (req, res) => {
+    const { email } = req.query; // Get email from query parameters
+    try {
+      const posts = await Post.find({ email }); // Find posts by email
+      res.json(posts);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  };
+  
 exports.updatePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);

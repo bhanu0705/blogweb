@@ -19,7 +19,7 @@ function Header({ isLoggedIn, handleLogout }) {
         <Link to="/">Home</Link>
         <Link to="/events">Events</Link>
         <Link to="/contact">Practice</Link>
-        <Link to="/community">Blogs</Link>
+        <Link to="/my-blogs">My Blogs</Link>
         {isLoggedIn ? (
           <Link to="/" onClick={handleLogout}>Logout</Link>
         ) : (
