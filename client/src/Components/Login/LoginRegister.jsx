@@ -28,37 +28,33 @@ function LoginRegister({onLogin}) {
   const handleLoginSubmit = async(e) => {
     e.preventDefault();
     try {
-    
-      const response = await axios.post('http://localhost:5000/login', loginData); // Corrected to '/login'
+      const response = await axios.post('http://localhost:5000/login', loginData);
       console.log(response.data); // Handle success (store token, redirect, etc.)
-      onLogin();
-      navigate('/'); // Call onLogin to update the login state
-
-    }
-     catch (error) {
-      console.error('Login failed:'); // Handle error
+      onLogin(loginData.email); // Pass the email to the onLogin function
+      navigate('/'); // Redirect to the landing page
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Optionally handle errors, e.g., setError(error.message);
     }
   };
-
+  
   const handleRegisterSubmit = async(e) => {
     e.preventDefault();
     if (registerData.password !== registerData.confirmPassword) {
       setError('Passwords do not match');
       return;
-    };
+    }
     try {
-        
-        const response = await axios.post('http://localhost:5000/register', registerData); // Corrected to '/login'
-        console.log(response.data); // Handle success (store token, redirect, etc.)
-        onLogin();
-        navigate('/'); // Call onLogin to update the login state
-
-      }
-       catch (error) {
-        console.error('Registration failed:', error.response?.data || error.message);
-      }
+      const response = await axios.post('http://localhost:5000/register', registerData);
+      console.log(response.data); // Handle success (store token, redirect, etc.)
+      onLogin(registerData.email); // Pass the email to the onLogin function
+      navigate('/'); // Redirect to the landing page
+    } catch (error) {
+      console.error('Registration failed:', error.response?.data || error.message);
+      // Optionally handle errors, e.g., setError(error.message);
+    }
   };
-
+  
   return (
     <div className="login-register">
       {isLogin ? (

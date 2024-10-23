@@ -6,13 +6,15 @@ import LandingPage from './Components/LandingPage/LandingPage';
 import Blog from './Components/CreateBlog/Blog';
 import BlogContent from './Components/CreateBlog/BlogPage';
 import LoginRegister from './Components/Login/LoginRegister';
+import MyBlogs from './Components/MyBlogs/MyBlogs';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Manage login state
 
-  const handleLogin = () => {
+  const handleLogin = (email) => {
     setIsLoggedIn(true);
     localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
   };
 
   const handleLogout = () => {
@@ -47,6 +49,7 @@ const App = () => {
             element={isLoggedIn ? <Blog isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> : <Navigate to="/login" />}
           />
           <Route path="/BlogPage/:id" element={<BlogContent />} />
+          <Route path='/my-blogs' element={<MyBlogs isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} />}></Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
