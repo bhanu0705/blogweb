@@ -101,6 +101,7 @@ function CreateBlog() {
   const handleSubmit =async (event) => {
     event.preventDefault();
     setContent(content);
+    const email = localStorage.getItem('userEmail');
     console.log(contentEditorRef.current.value)
     // Handle form submission logic here
     console.log('Title:', title);
@@ -112,6 +113,7 @@ function CreateBlog() {
     postData.append('title', title);
     postData.append('content', content);
     postData.append('author', author);
+    postData.append('email', email);
     console.log(postData)
     const config = {headers: {'Content-Type': 'multipart/form-data'}}
     // console.log(formData)
