@@ -21,6 +21,7 @@ function Header() {
         <Link to="/events">Events</Link>
         <Link to="/contact">Practice</Link>
         <Link to="/community">Blogs</Link>
+        <Link to="/Login">Login</Link>
       </nav>
     </header>
   );

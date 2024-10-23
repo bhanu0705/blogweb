@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import LandingPage from './Components/LandingPage/LandingPage';
 import Login from './Components/Login/Login';
 import Blog from './Components/CreateBlog/Blog';
-import BlogContent from './Components/CreateBlog/BlogPage';
+import BlogContent from './Components/CreateBlog/BlogPage'
 
 
 function App() {
