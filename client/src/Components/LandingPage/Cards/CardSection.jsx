@@ -99,6 +99,7 @@ export const cards = [
   },
 ];
 
+
 function CardSection() {
   const [blogs,setBlogs] = useState([])
   const navigate= useNavigate();
