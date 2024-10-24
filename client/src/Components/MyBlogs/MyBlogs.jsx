@@ -3,13 +3,15 @@ import axios from "axios";
 import './MyBlogs.css'; // Ensure this file includes the same styling structure
 import Header from "../LandingPage/Header/Header";
 import CardSection from "../LandingPage/Cards/CardSection";
+import { cards } from "../LandingPage/Cards/CardSection";
+import { useNavigate } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const MyBlogs = ({ isLoggedIn ,handleLogout}) => {
     const [myPosts, setMyPosts] = useState([]);
     const [error, setError] = useState('');
-
+    const navigate=useNavigate();
     useEffect(() => {
         
         const fetchMyPosts = async () => {
@@ -41,37 +43,18 @@ const MyBlogs = ({ isLoggedIn ,handleLogout}) => {
 
         fetchMyPosts(); // Call the function to fetch posts
     }, [isLoggedIn]); // Add isLoggedIn as a dependency
-
     return (
         <div>
         <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-
-        <div className='my-blogs-container'>
-            <h1>My Blogs</h1>
-            {error && <div className="alert alert-danger">{error}</div>} {/* Display error if any */}
-            {myPosts.length === 0 ? (
-                <p>No blogs found</p> // Message when no blogs are available
-            ) : (
-                <div className="blogContent">
-                    {myPosts.map(post => (
-                        <div key={post._id} className="details">
-                            <div className="blog-img">
-                                <img src={post.imageUrl} alt={post.title} />
-                            </div>
-                            <h5 className='blog-title'>{post.title}</h5>
-                            <div className='mainContent' dangerouslySetInnerHTML={{ __html: post.content }}></div>
-                            <small className='author-date'>
-                                <span className="user-icon">
-                                    <i className="fas fa-user"></i>
-                                </span>
-                                {post.author} | {new Date(post.date).toDateString()}
-                            </small>
-                            <hr />
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+      <div className="cards-container">
+        {myPosts && myPosts.map((card,index) => (
+          <div className="card" key={card._id}>
+            <img src={cards[index%7].cover} alt="cover image" className="card-image" />
+            <h3 className='card-title'>{card.title}</h3>
+            <button className="read-more-button" onClick={()=>navigate(`/BlogPage/${card._id}`)}>Read More</button>
+          </div>
+        ))}
+      </div>
         </div>
     );
 };
