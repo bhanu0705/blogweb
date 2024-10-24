@@ -12,6 +12,7 @@ const BlogContent = () => {
   const card = cards.find(card => card.id === parseInt(id, 10)); // Find the specific card by ID
   const [blogContent, setBlogContent] = useState({});
   const [date, setDate] = useState('');
+  const userEmail = localStorage.getItem('userEmail');
 
   const fetchPost = async () => {
     try {
@@ -32,21 +33,23 @@ const BlogContent = () => {
   };
 
   const deletePost = async () => {
-    // Show confirmation dialog
-    const confirmed = window.confirm('Are you sure you want to delete this post?');
-    if (confirmed) {
-      try {
-        const response = await axios.delete(`${apiUrl}/posts/${id}`);
-        if (response.status === 200) {
-          alert('Post deleted successfully!');
-          navigate('/'); // Redirect to homepage after deletion
-        }
-      } catch (error) {
-        console.error('Failed to delete post:', error);
-        alert('Error deleting post.');
-      }
-    }
-  };
+  // Show confirmation dialog
+  const confirmed = window.confirm('Are you sure you want to delete this post?');
+  if (confirmed) {
+    try {
+      const response = await axios.delete(`${apiUrl}/posts/${id}`, {
+        data: { email: userEmail } // Send the user's email in the request body
+      });
+      if (response.status === 200) {
+        alert('Post deleted successfully!');
+        navigate('/my-blogs'); // Redirect to homepage after deletion
+      }
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+      alert('Error deleting post.');
+    }
+  }
+};
 
   useEffect(() => {
     fetchPost();
@@ -69,9 +72,11 @@ const BlogContent = () => {
               <span className="edit-icon">
                 <i className="fas fa-edit"></i>
               </span>
-              <span className="delete-icon" onClick={deletePost}>
-                <i className="fas fa-trash"></i>
-              </span>
+              {blogContent.email === userEmail && (
+                <span className="delete-icon" onClick={deletePost}>
+                  <i className="fas fa-trash"></i>
+                </span>
+              )}
             </span>
           </div>
           <p className='author-date'>
