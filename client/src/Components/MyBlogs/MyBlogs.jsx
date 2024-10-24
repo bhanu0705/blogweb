@@ -1,43 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import './MyBlogs.css'; // Ensure this file includes the same styling structure
+import './MyBlogs.css'; 
 import Header from "../LandingPage/Header/Header";
 import CardSection from "../LandingPage/Cards/CardSection";
 import { cards } from "../LandingPage/Cards/CardSection";
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
-const MyBlogs = ({ isLoggedIn ,handleLogout}) => {
+const MyBlogs = ({ isLoggedIn, handleLogout }) => {
     const [myPosts, setMyPosts] = useState([]);
     const [error, setError] = useState('');
     const navigate=useNavigate();
     useEffect(() => {
-        
         const fetchMyPosts = async () => {
-            if (!isLoggedIn) return; // Return early if not logged in
-
-            const email = localStorage.getItem('userEmail'); // Retrieve the email from local storage
-            if (!email) {
-                setError('Email not found in local storage.');
-                return;
-            }
+          const userEmail = localStorage.getItem('userEmail');
+            if (!isLoggedIn || !userEmail) return; // If not logged in or no email, exit early
 
             try {
-                const token = localStorage.getItem('token'); // Retrieve the token from local storage
                 const response = await axios.get(`${apiUrl}/posts/my-blogs`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                    },
                     params: {
-                        email, // Pass the email as a query parameter
+                        email: userEmail, // Pass the email in query parameters
                     },
                 });
-                setMyPosts(response.data); // Store the fetched posts in state
-            } catch (error) {
-                setError('Error fetching your blogs.'); // Handle errors
-                console.error('Error fetching blogs:', error);
+
+                setMyPosts(response.data); // Update the posts state with the fetched data
+                setError(''); // Reset any previous error
+            } catch (err) {
+                setError('Error fetching your blogs.'); // Handle error in fetching blogs
+                console.error('Error fetching blogs:', err);
             }
         };
 
@@ -46,15 +36,19 @@ const MyBlogs = ({ isLoggedIn ,handleLogout}) => {
     return (
         <div>
         <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-      <div className="cards-container">
-        {myPosts && myPosts.map((card,index) => (
-          <div className="card" key={card._id}>
-            <img src={cards[index%7].cover} alt="cover image" className="card-image" />
-            <h3 className='card-title'>{card.title}</h3>
-            <button className="read-more-button" onClick={()=>navigate(`/BlogPage/${card._id}`)}>Read More</button>
-          </div>
-        ))}
-      </div>
+        <div className="cards-container">
+            {myPosts.length > 0 ? (
+                myPosts.map((card, index) => (
+                    <div className="card" key={card._id}>
+                        <img src={cards[index % 7].cover} alt="cover image" className="card-image" />
+                        <h3 className='card-title'>{card.title}</h3>
+                        <button className="read-more-button" onClick={() => navigate(`/BlogPage/${card._id}`)}>Read More</button>
+                    </div>
+                ))
+            ) : (
+                <p>No blogs found.</p>
+            )}
+        </div>
         </div>
     );
 };

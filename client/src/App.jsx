@@ -7,6 +7,7 @@ import Blog from './Components/CreateBlog/Blog';
 import BlogContent from './Components/CreateBlog/BlogPage';
 import LoginRegister from './Components/Login/LoginRegister';
 import MyBlogs from './Components/MyBlogs/MyBlogs';
+import BlogPage from './Components/CreateBlog/BlogPage';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Manage login state
@@ -48,7 +49,7 @@ const App = () => {
             path="/CreateBlog"
             element={isLoggedIn ? <Blog isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> : <Navigate to="/login" />}
           />
-          <Route path="/BlogPage/:id" element={<BlogContent />} />
+          <Route path="/BlogPage/:id" element={<BlogPage isLoggedIn={isLoggedIn} handleLogout={handleLogout} />} />
           <Route path='/my-blogs' element={<MyBlogs isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} />}></Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

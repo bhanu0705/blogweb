@@ -32,6 +32,10 @@ function LoginRegister({onLogin}) {
       console.log(response.data); // Handle success (store token, redirect, etc.)
       onLogin(loginData.email); // Pass the email to the onLogin function
       navigate('/'); // Redirect to the landing page
+      localStorage.setItem('userEmail', loginData.email); 
+      localStorage.setItem('isLoggedin', true);
+      console.log(localStorage.getItem('userEmail'));
+      console.log(localStorage.getItem('isLoggedin'));
     } catch (error) {
       console.error('Login failed:', error);
       // Optionally handle errors, e.g., setError(error.message);
