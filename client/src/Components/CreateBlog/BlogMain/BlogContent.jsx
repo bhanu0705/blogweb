@@ -40,12 +40,24 @@ const BlogContent = () => {
           <div className='blog-img'>
             <img src={blogContent.imageUrl || cards[0].cover} alt="Thumbnail Image" />
           </div>
-          <h2 className='blog-title'>{blogContent.title}</h2>
+
+          <div className='blog-title-bar'>
+          <span  className='blog-title'><h2>{blogContent.title}</h2></span>
+         <span className='icon'> 
+          <span className="edit-icon">
+              <i className="fas fa-edit"></i> 
+            </span>
+            <span className="delete-icon">
+             <i className="fas fa-trash"></i>
+            </span>
+            </span>
+          </div>
+
           <p className='author-date'>
             <span className="user-icon">
-              <i className="fas fa-user"></i>
+              <i className="fas fa-user"></i> 
             </span>
-            {blogContent.author} | {date}
+            {blogContent.author} | {date} 
           </p>
           <div className='mainContent' dangerouslySetInnerHTML={{ __html: blogContent.content }}></div>
         </div>
@@ -68,4 +80,4 @@ const BlogContent = () => {
   );
 }
 
-export default BlogContent;
+export default BlogContent;
