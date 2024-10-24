@@ -91,17 +91,25 @@ exports.updatePost = async (req, res) => {
 };
 
 exports.deletePost = async (req, res) => {
-    try {
-      const post = await Post.findById(req.params.id);
-      if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
-      }
-  
-      // Use the instance method to delete
-      await Post.deleteOne({ _id: req.params.id });
-      res.json({ message: 'Post deleted' });
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  };
+  const postId = req.params.id;
+  const userEmail = req.body.email; // Email of the user requesting the delete
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the current user is the author of the post
+    if (post.email !== userEmail) {
+      return res.status(403).json({ message: 'You do not have permission to delete this post' });
+    }
+
+    // Delete the post if the user is the author
+    await Post.deleteOne({ _id: postId });
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
   
