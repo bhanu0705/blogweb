@@ -99,7 +99,8 @@ export const cards = [
   },
 ];
 
-function CardSection({blog}) {
+
+function CardSection() {
   const [blogs,setBlogs] = useState([])
   const navigate= useNavigate();
   const fetchAllBlogs =async (event) => {

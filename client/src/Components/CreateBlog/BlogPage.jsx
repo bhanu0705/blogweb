@@ -5,10 +5,10 @@ import BlogContent from './BlogMain/BlogContent'
 import Comment from './BlogMain/Comment'
 
 
-const BlogPage = () => {
+const BlogPage = ({isLoggedIn,handleLogout}) => {
   return (
     <div>
-      <Header/>
+      <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
       <BlogContent/>
       <Comment/>
       <Footer/>

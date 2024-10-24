@@ -3,19 +3,21 @@ import axios from "axios";
 import './MyBlogs.css'; 
 import Header from "../LandingPage/Header/Header";
 import CardSection from "../LandingPage/Cards/CardSection";
+import { cards } from "../LandingPage/Cards/CardSection";
+import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL
 
 const MyBlogs = ({ isLoggedIn, handleLogout }) => {
     const [myPosts, setMyPosts] = useState([]);
     const [error, setError] = useState('');
-    const userEmail = localStorage.getItem('userEmail'); // Get the user email from local storage
-
-    // Fetch blogs created by the user
+    const navigate=useNavigate();
     useEffect(() => {
         const fetchMyPosts = async () => {
+          const userEmail = localStorage.getItem('userEmail');
             if (!isLoggedIn || !userEmail) return; // If not logged in or no email, exit early
 
             try {
-                const response = await axios.get(`/api/posts/my-blogs`, {
+                const response = await axios.get(`${apiUrl}/posts/my-blogs`, {
                     params: {
                         email: userEmail, // Pass the email in query parameters
                     },
@@ -29,24 +31,24 @@ const MyBlogs = ({ isLoggedIn, handleLogout }) => {
             }
         };
 
-        fetchMyPosts(); // Call the function to fetch the user's blogs
-    }, [isLoggedIn, userEmail]); // Re-fetch if login status or userEmail changes
-
+        fetchMyPosts(); // Call the function to fetch posts
+    }, [isLoggedIn]); // Add isLoggedIn as a dependency
     return (
         <div>
-            <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-            
-            <div className="my-blogs-container">
-                <h1>My Blogs</h1>
-                
-                {error && <div className="alert alert-danger">{error}</div>} {/* Display error message */}
-                
-                {myPosts.length > 0 ? (
-                    <CardSection blog={myPosts} /> // Render the posts in a CardSection if available
-                ) : (
-                    <p>No blogs found.</p> // Display a message if no blogs are found
-                )}
-            </div>
+        <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+        <div className="cards-container">
+            {myPosts.length > 0 ? (
+                myPosts.map((card, index) => (
+                    <div className="card" key={card._id}>
+                        <img src={cards[index % 7].cover} alt="cover image" className="card-image" />
+                        <h3 className='card-title'>{card.title}</h3>
+                        <button className="read-more-button" onClick={() => navigate(`/BlogPage/${card._id}`)}>Read More</button>
+                    </div>
+                ))
+            ) : (
+                <p>No blogs found.</p>
+            )}
+        </div>
         </div>
     );
 };
