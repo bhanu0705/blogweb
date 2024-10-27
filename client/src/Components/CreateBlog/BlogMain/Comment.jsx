@@ -27,7 +27,7 @@ const Comment = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent page refresh
-    const commentData = { username: name, comment: commentContent };
+    const commentData = { username: name, email:email, comment: commentContent };
     console.log(commentData);
 
     toast.loading('Submitting...');
@@ -40,6 +40,7 @@ const Comment = () => {
       
       const newComment = {
         username: name,
+        email: email,
         comment: commentContent,
         _id: response.data._id, 
         createdAt: new Date().toISOString(), 
@@ -121,6 +122,7 @@ const Comment = () => {
               />
               <div className="comment-content">
               <h4>{comment.username}</h4>
+              <p>{comment.email}</p>
               <p>{comment.comment && typeof comment.comment === 'string' ? comment.comment : comment.Comment}</p>
             </div>
             </div>

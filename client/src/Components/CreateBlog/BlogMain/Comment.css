@@ -6,7 +6,7 @@
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    padding: 30px 50px;
+    padding: 20px 20px;
     border-radius: 8px;
   }
   
@@ -27,6 +27,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    
   }
   
   .comment-box input{
@@ -92,7 +93,7 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    width: 90%;
   }
 
   .comment-content h4 {

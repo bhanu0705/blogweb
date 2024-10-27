@@ -32,6 +32,35 @@ const BlogContent = () => {
     }
   };
 
+  const editPost = async () => {
+    try {
+      // Prompt the user for the updated title and content
+      const updatedTitle = prompt('Enter  title:', blogContent.title);
+      const updatedAuthor = prompt('Enter author:', blogContent.author);
+      const updatedContent = prompt('Enter content:', blogContent.content);
+  
+      // Check if the user provided both title and content
+      if (updatedTitle && updatedAuthor && updatedContent) {
+        const updatedPost = {
+          title: updatedTitle,
+          author: updatedAuthor,
+          content: updatedContent,
+        };
+  
+        const response = await axios.put(`${apiUrl}/posts/${id}`, updatedPost);
+        if (response.status === 200) {
+          alert('Post edited successfully!');
+          setBlogContent(updatedPost); // Update the local state with the new content
+          navigate('/my-blogs'); // Redirect to my-blogs after editing
+        }
+      } 
+    } catch (error) {
+      console.error('Failed to edit post:', error);
+      alert('Error editing post.');
+    }
+  };
+  
+
   const deletePost = async () => {
   // Show confirmation dialog
   const confirmed = window.confirm('Are you sure you want to delete this post?');
@@ -42,7 +71,7 @@ const BlogContent = () => {
       });
       if (response.status === 200) {
         alert('Post deleted successfully!');
-        navigate('/'); // Redirect to homepage after deletion
+        navigate('/my-blogs'); // Redirect to homepage after deletion
       }
     } catch (error) {
       console.error('Failed to delete post:', error);
@@ -69,10 +98,10 @@ const BlogContent = () => {
           <div className='blog-title-bar'>
             <span className='blog-title'><h2>{blogContent.title}</h2></span>
             <span className='icon'>
-              <span className="edit-icon">
+              <span className="edit-icon" onClick={editPost}>
                 <i className="fas fa-edit"></i>
               </span>
-              {blogContent.email === userEmail && (
+              {blogContent.email === userEmail && (
                 <span className="delete-icon" onClick={deletePost}>
                   <i className="fas fa-trash"></i>
                 </span>
