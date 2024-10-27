@@ -134,26 +134,6 @@
 .sidebar ul li p a:hover span {
     transform: translateX(5px);
 }
-<<<<<<< HEAD
-.blog-title-bar {
-    display: flex;
-    justify-content: space-between; /* Pushes items to the sides */
-    align-items: center; /* Vertically centers items */
-    position: relative;
-  }
-  
-  .blog-title {
-    width:80%;
-    padding-left: 20%;
-  }
-  
-  .edit-icon,
-  .delete-icon {
-    margin-left: 10px;
-    font-size: x-large;
-  } 
-.icon{
-=======
 
 .edit-icon, .delete-icon {
     margin-left: 10px;
@@ -161,6 +141,5 @@
 }
 
 .icon {
->>>>>>> 908e70c29e6b09501d230acedad5d005231a1990
     margin-right: 5%;
 }

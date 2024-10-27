@@ -73,3 +73,36 @@
     margin-top: 20px;
     margin-left:80px;
   }
+
+  .comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .comment-content {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+  .comment-content h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+  }
+
+  .comment-content p {
+    margin: 10px 0 0;
+    font-size: 16px;
+    color: #666;
+  }

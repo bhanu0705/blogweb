@@ -114,8 +114,15 @@ const Comment = () => {
         {comments.length > 0 ? (
           comments.map((comment) => (
             <div key={comment.id} className="comment">
+              <img 
+                src="https://cdn.vectorstock.com/i/500p/39/32/silhouette-of-a-mans-head-with-picture-the-m-vector-3013932.avif" // Placeholder image URL
+                alt="Profile"
+                className="profile-image"
+              />
+              <div className="comment-content">
               <h4>{comment.username}</h4>
               <p>{comment.comment && typeof comment.comment === 'string' ? comment.comment : comment.Comment}</p>
+            </div>
             </div>
           ))
         ) : (
