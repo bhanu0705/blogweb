@@ -19,6 +19,7 @@ function CreateBlog() {
     const [blogContent, setBlogContent] = useState({});
     const [blogImages, setBlogImages] = useState([]);
     const [selectedAiImage, setSelectedAiImage] = useState("");
+    const [showSuggestedImages, setShowSuggestedImages] = useState(false);
     const formRef = useRef(null);
 
     const handleChange = (setter) => (event) => setter(event.target.value);
@@ -34,6 +35,8 @@ function CreateBlog() {
         const blogPrompt = `generate a JSON object where key is "blog" and value is a 1000 words single line string about a blog on ${aiTitle} dont create paragraphs just generate a single line string no new lines`;
         await fetchBlogContent(blogPrompt);
         await fetchBlogImages(aiTitle);
+
+        setShowSuggestedImages(true);
     };
 
     const fetchBlogContent = async (prompt) => {
@@ -186,7 +189,8 @@ function CreateBlog() {
                         </div>
                         <button onClick={handleGenerateAiPost} className="btn btn-primary mb-3">
                             Generate Content
-                        </button>
+                        </button> <br></br>
+                        {showSuggestedImages && (
                         <div>
                             <h6>Suggested Images</h6>
                             <div className="image-gallery">
@@ -202,9 +206,10 @@ function CreateBlog() {
                                 ))}
                             </div>
                         </div>
+                        )}
                         <button onClick={handleAiPostSubmit} className="btn btn-primary">
                             Submit AI Blog
-                        </button>
+                        </button> 
                         {blogContent.blog && (
                             <div>
                                 <h6>Generated Content</h6>
