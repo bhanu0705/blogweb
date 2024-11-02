@@ -3,6 +3,7 @@ import './BlogContent.css';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { cards } from '../../LandingPage/Cards/CardSection';
 import axios from 'axios';
+import Comment from './Comment';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -119,8 +120,11 @@ console.log("Editing Post URL:", `${apiUrl}/posts/${id}`);
             {blogContent.author} | {date}
           </p>
           <div className='mainContent' dangerouslySetInnerHTML={{ __html: blogContent.content }}></div>
-        </div>
-      </div>
+        <Comment/>
+ </div>
+     
+     
+    </div>
       <div className='sidebar'>
         <h3>Latest Reads</h3>
         <ul>
@@ -158,8 +162,11 @@ console.log("Editing Post URL:", `${apiUrl}/posts/${id}`);
             <button type="submit">Save</button>
             <button type="button" onClick={() => setShowEditModal(false)}>Cancel</button>
           </form>
+      
+ 
         </div>
       )}
+   
 
     </div>
   );

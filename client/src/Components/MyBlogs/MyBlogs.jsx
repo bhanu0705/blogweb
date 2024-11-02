@@ -5,6 +5,8 @@ import Header from "../LandingPage/Header/Header";
 import CardSection from "../LandingPage/Cards/CardSection";
 import { cards } from "../LandingPage/Cards/CardSection";
 import { useNavigate } from "react-router-dom";
+import Comment from "../CreateBlog/BlogMain/Comment";
+
 const apiUrl = import.meta.env.VITE_API_URL
 
 const MyBlogs = ({ isLoggedIn, handleLogout }) => {
@@ -43,12 +45,16 @@ const MyBlogs = ({ isLoggedIn, handleLogout }) => {
                         <img src={cards[index % 7].cover} alt="cover image" className="card-image" />
                         <h3 className='card-title'>{card.title}</h3>
                         <button className="read-more-button" onClick={() => navigate(`/BlogPage/${card._id}`)}>Read More</button>
+                     <Comment />
+
                     </div>
+                    
                 ))
             ) : (
                 <p>No blogs found.</p>
             )}
         </div>
+        
         </div>
     );
 };

@@ -10,6 +10,7 @@ const LandingPage = ({ isLoggedIn, handleLogout }) => {
       <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       <CreateBlog />
       <Footer />
+     
     </div>
   );
 };
