@@ -87,15 +87,7 @@ const Comment = () => {
                 required
               />
             </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                onChange={handleEmailChange}
-                required
-              />
-            </div>
+          
           </div>
           <div>
             <textarea

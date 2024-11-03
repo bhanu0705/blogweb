@@ -1,8 +1,8 @@
 .comment-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding: 20px; /* Added padding for better spacing */
+  padding: 200px; /* Added padding for better spacing */
   min-height: 100vh; /* Ensure it takes full height for centering */
   background-color: #f0f0f0; /* Optional background for contrast */
 }
@@ -12,10 +12,10 @@
   grid-template-columns: 1fr; /* Single column layout */
   gap: 20px; /* Space between grid items */
   max-width: 600px; /* Limit width of the comment box */
-  margin: 20px auto;
+  margin-left: 40px; /* Adjust margin as needed */
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
   padding: 20px;
   border-radius: 8px;
 }
@@ -30,6 +30,7 @@
 
 .comment-box form {
   margin-bottom: 20px;
+  justify-content: flex-start;
 }
 
 .input-row {
@@ -83,6 +84,7 @@
   text-align: left;
   padding: 10px;
   margin-top: 20px;
+  margin-left: 37px; 
 }
 
 .comment {
