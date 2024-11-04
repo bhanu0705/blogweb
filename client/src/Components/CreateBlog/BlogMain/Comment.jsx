@@ -8,7 +8,6 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const Comment = () => { 
   const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
   const [commentContent, setCommentContent] = React.useState('');
   const [comments, setComments] = React.useState([]);
   const { id: postID } = useParams();
@@ -17,17 +16,13 @@ const Comment = () => {
     setName(event.target.value);
   };
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
   const handleCommentContentChange = (event) => {
     setCommentContent(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent page refresh
-    const commentData = { username: name, email:email, comment: commentContent };
+    const commentData = { username: name, comment: commentContent };
     console.log(commentData);
 
     toast.loading('Submitting...');
@@ -40,7 +35,6 @@ const Comment = () => {
       
       const newComment = {
         username: name,
-        email: email,
         comment: commentContent,
         _id: response.data._id, 
         createdAt: new Date().toISOString(), 
@@ -50,7 +44,6 @@ const Comment = () => {
       setComments((prevComments) => [...prevComments, newComment]);
 
       setName('');
-      setEmail('');
       setCommentContent('');
     } catch (error) {
       toast.dismiss();
@@ -87,15 +80,7 @@ const Comment = () => {
                 required
               />
             </div>
-            <div>
-              <input
-                type="email"
-                placeholder="Your Email"
-                value={email}
-                onChange={handleEmailChange}
-                required
-              />
-            </div>
+          
           </div>
           <div>
             <textarea

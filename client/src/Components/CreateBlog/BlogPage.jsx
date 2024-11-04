@@ -10,10 +10,11 @@ const BlogPage = ({isLoggedIn,handleLogout}) => {
     <div>
       <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
       <BlogContent/>
-      <Comment/>
+      
       <Footer/>
+      
     </div>
   )
 }
 
-export default BlogPage
+export default BlogPage;

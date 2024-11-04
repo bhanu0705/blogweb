@@ -15,9 +15,10 @@ function CreateBlog() {
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null);
     const [author, setAuthor] = useState("");
-    const [aiAuthor, setAiAuthor] = useState("");
     const [aiTitle, setAiTitle] = useState("");
+    const [aiAuthor, setAiAuthor]=useState('');
     const [blogContent, setBlogContent] = useState({});
+    const [aiBlogContent, setAiBlogContent]=useState({});
     const [blogImages, setBlogImages] = useState([]);
     const [selectedAiImage, setSelectedAiImage] = useState("");
     const [showSuggestedImages, setShowSuggestedImages] = useState(false);
@@ -25,6 +26,10 @@ function CreateBlog() {
 
     const handleChange = (setter) => (event) => setter(event.target.value);
     const handleContentChange = (newContent) => setContent(newContent);
+    const handleAiContentChange = (newContent) => {
+        setAiBlogContent((prevContent) => ({ ...prevContent, blog: newContent }));
+      };
+    
     const handleImageChange = (event) => setImage(event.target.files[0]);
 
     const handleGenerateAiPost = async () => {
@@ -47,7 +52,7 @@ function CreateBlog() {
             const result = await model.generateContent(prompt);
             const response = result.response;
             const text = await response.text();
-            setBlogContent(JSON.parse(text));
+            setAiBlogContent(JSON.parse(text));
         } catch (error) {
             console.error("Error fetching blog content:", error);
             toast.error("Error fetching blog content.");
@@ -92,7 +97,7 @@ function CreateBlog() {
     };
 
     const handleAiPostSubmit = async () => {
-        if (!aiTitle || !aiAuthor || !blogContent.blog || !selectedAiImage) {
+        if (!aiTitle || !aiBlogContent.blog || !selectedAiImage) {
             toast.error("Please complete all AI fields before submitting!");
             return;
         }
@@ -100,9 +105,9 @@ function CreateBlog() {
         const email = localStorage.getItem("userEmail");
         const postData = new FormData();
         postData.append("title", aiTitle);
-        postData.append("content", blogContent.blog);
+        postData.append("content", aiBlogContent.blog);
         postData.append("imageUrl", selectedAiImage);
-        postData.append("author", aiAuthor);
+        postData.append("author", aiAuthor || "AI");
         postData.append("email", email);
 
         toast.loading("Submitting AI-generated blog...");
@@ -222,10 +227,25 @@ function CreateBlog() {
                         <button onClick={handleAiPostSubmit} className="btn btn-primary">
                             Submit AI Blog
                         </button> 
-                        {blogContent.blog && (
+                        {aiBlogContent.blog && (
                             <div>
                                 <h6>Generated Content</h6>
-                                <div dangerouslySetInnerHTML={{ __html: blogContent.blog }} />
+                                {/* <div dangerouslySetInnerHTML={{ __html: blogContent.blog }} /> */}
+                                {/* <textarea
+                                className="form-control"
+                                id="ai-content"
+                                value={blogContent.blog}
+                                readOnly={false}
+                                style={{ height: "700px", fontSize: "18px" }}
+                            /> */}
+                            <JoditEditor
+                                    value={aiBlogContent.blog}
+                                    tabIndex={1}
+                                    onBlur={handleAiContentChange}
+                                    config={{ height: 600, uploader: { insertImageAsBase64URI: true } }}
+                                    className="large-editor"
+                                />
+                            
                             </div>
                         )}
                     </div>
@@ -234,5 +254,6 @@ function CreateBlog() {
         </div>
     );
 }
+
 
 export default CreateBlog;

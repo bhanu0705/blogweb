@@ -4,9 +4,9 @@ const Post = require('../models/post-model');
 exports.createComment = async (req, res) => {
   try {
     const { postId } = req.params;
-    const { username, comment,email } = req.body;
+    const { username, comment } = req.body;
 
-    const newComment = new Comment({ username, comment, email });
+    const newComment = new Comment({ username, comment});
     await newComment.save();
 
     const post = await Post.findById(postId);
