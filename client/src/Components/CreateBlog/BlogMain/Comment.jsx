@@ -122,7 +122,6 @@ const Comment = () => {
               />
               <div className="comment-content">
               <h4>{comment.username}</h4>
-              <p>{comment.email}</p>
               <p>{comment.comment && typeof comment.comment === 'string' ? comment.comment : comment.Comment}</p>
             </div>
             </div>

@@ -15,6 +15,7 @@ function CreateBlog() {
     const [content, setContent] = useState("");
     const [image, setImage] = useState(null);
     const [author, setAuthor] = useState("");
+    const [aiAuthor, setAiAuthor] = useState("");
     const [aiTitle, setAiTitle] = useState("");
     const [blogContent, setBlogContent] = useState({});
     const [blogImages, setBlogImages] = useState([]);
@@ -27,8 +28,8 @@ function CreateBlog() {
     const handleImageChange = (event) => setImage(event.target.files[0]);
 
     const handleGenerateAiPost = async () => {
-        if (!aiTitle) {
-            toast.error("Please enter a title to generate content!");
+        if (!aiTitle || !aiAuthor) {
+            toast.error("Please enter all fields to generate content!");
             return;
         }
 
@@ -91,7 +92,7 @@ function CreateBlog() {
     };
 
     const handleAiPostSubmit = async () => {
-        if (!aiTitle || !blogContent.blog || !selectedAiImage) {
+        if (!aiTitle || !aiAuthor || !blogContent.blog || !selectedAiImage) {
             toast.error("Please complete all AI fields before submitting!");
             return;
         }
@@ -101,7 +102,7 @@ function CreateBlog() {
         postData.append("title", aiTitle);
         postData.append("content", blogContent.blog);
         postData.append("imageUrl", selectedAiImage);
-        postData.append("author", author || "AI");
+        postData.append("author", aiAuthor);
         postData.append("email", email);
 
         toast.loading("Submitting AI-generated blog...");
@@ -187,12 +188,23 @@ function CreateBlog() {
                                 placeholder="Enter AI title"
                             />
                         </div>
+                        <div className="form-group mb-3">
+                                <label htmlFor="author">Author</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter Author Name"
+                                    value={aiAuthor}
+                                    onChange={handleChange(setAiAuthor)}
+                                    style={{ height: "40px", fontSize: "18px" }}
+                                />
+                            </div>
                         <button onClick={handleGenerateAiPost} className="btn btn-primary mb-3">
                             Generate Content
                         </button> <br></br>
                         {showSuggestedImages && (
                         <div>
-                            <h6>Suggested Images</h6>
+                            <h6>Select an image</h6>
                             <div className="image-gallery">
                                 {blogImages.map((imageUrl, index) => (
                                     <img

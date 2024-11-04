@@ -135,6 +135,29 @@
     transform: translateX(5px);
 }
 
+.blog-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.update-button, .delete-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.update-button {
+    background-color: #4CAF50; 
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
 .edit-icon, .delete-icon {
     margin-left: 10px;
     font-size: x-large;
@@ -183,7 +206,10 @@
 }
 
 .edit-modal button {
+    height: 50px;
+    width: 100px;
     margin-right: 8px;
+    margin-bottom: 8px;
     padding: 10px 15px;
     background-color: #4caf50;
     color: white;
@@ -193,5 +219,15 @@
 }
 
 .edit-modal button[type="button"] {
+    height: 50px;
+    width: 100px;
     background-color: #f44336;
 }
+
+.button-group {
+    display: flex;
+    gap: 10px; 
+    justify-content: flex-end; 
+  }
+  
+  
