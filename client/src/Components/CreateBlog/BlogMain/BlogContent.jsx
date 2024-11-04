@@ -19,11 +19,10 @@ const BlogContent = ({blogs}) => {
     content: ''
   });
   const userEmail = localStorage.getItem('userEmail');
-
+  console.log(blogs);
   const fetchPost = async () => {
     try {
       const response = await axios.get(`${apiUrl}/posts/${id}`);
-      const response2 = await axios.get(`${apiUrl}/posts/`);
       if (response.status === 200) {
         setBlogContent(response.data);
         const createdAt = response.data.date;
@@ -49,8 +48,6 @@ const BlogContent = ({blogs}) => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-console.log("API URL:", apiUrl);
-console.log("Editing Post URL:", `${apiUrl}/posts/${id}`);
 
     try {
       const response = await axios.put(`${apiUrl}/posts/${id}`, updatedContent);
@@ -123,13 +120,12 @@ console.log("Editing Post URL:", `${apiUrl}/posts/${id}`);
           <div className='mainContent' dangerouslySetInnerHTML={{ __html: blogContent.content }}></div>
         <Comment/>
  </div>
-     
-     
+
+
     </div>
       <div className='sidebar'>
         <h3>Latest Reads</h3>
         <ul>
-
           {blogs.map(card => (
             <li key={card.id}>
               <a className="card-title" href={card.link}>{card.title}</a>
