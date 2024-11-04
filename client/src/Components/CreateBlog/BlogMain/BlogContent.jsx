@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './BlogContent.css';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { cards } from '../../LandingPage/Cards/CardSection';
+import { cards} from '../../LandingPage/Cards/CardSection';
 import axios from 'axios';
 import Comment from './Comment';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const BlogContent = () => {
+const BlogContent = ({blogs}) => {
   const { id } = useParams(); // Get the card ID from the route parameter
   const navigate = useNavigate(); // Hook for navigation
   const card = cards.find(card => card.id === parseInt(id, 10)); // Find the specific card by ID
@@ -23,6 +23,7 @@ const BlogContent = () => {
   const fetchPost = async () => {
     try {
       const response = await axios.get(`${apiUrl}/posts/${id}`);
+      const response2 = await axios.get(`${apiUrl}/posts/`);
       if (response.status === 200) {
         setBlogContent(response.data);
         const createdAt = response.data.date;
@@ -128,11 +129,12 @@ console.log("Editing Post URL:", `${apiUrl}/posts/${id}`);
       <div className='sidebar'>
         <h3>Latest Reads</h3>
         <ul>
-          {cards.map(card => (
+
+          {blogs.map(card => (
             <li key={card.id}>
-              <a href={card.link}>{card.title}</a>
+              <a className="card-title" href={card.link}>{card.title}</a>
               <p>
-                <Link to={card.link}>Read More<span><i className="fa-solid fa-arrow-right"></i></span></Link>
+                <button className="read-more-button" onClick={()=>navigate(`/BlogPage/${card._id}`)}>Read More<span><i className="fa-solid fa-arrow-right"></i></span></button>
               </p>
             </li>
           ))}
@@ -155,12 +157,15 @@ console.log("Editing Post URL:", `${apiUrl}/posts/${id}`);
             <label>
               Content:
               <textarea
+                className="content-edit"
                 value={updatedContent.content}
                 onChange={(e) => setUpdatedContent({ ...updatedContent, content: e.target.value })}
               />
             </label>
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setShowEditModal(false)}>Cancel</button>
+            <div className="buttons-container">
+               <button type="submit">Save</button>
+               <button type="button" onClick={() => setShowEditModal(false)}>Cancel</button>
+            </div>
           </form>
       
  

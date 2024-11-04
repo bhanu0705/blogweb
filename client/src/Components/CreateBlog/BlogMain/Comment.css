@@ -11,8 +11,9 @@
   display: grid;
   grid-template-columns: 1fr; /* Single column layout */
   gap: 20px; /* Space between grid items */
-  max-width: 600px; /* Limit width of the comment box */
+  max-width: 100%; /* Limit width of the comment box */
   margin-left: 40px; /* Adjust margin as needed */
+  margin-right:40px;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
@@ -106,6 +107,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 90%;
+  word-wrap: break-word;
 }
 
 .comment-content h4 {

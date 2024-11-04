@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import axios from 'axios';
 import LandingPage from './Components/LandingPage/LandingPage';
 import Blog from './Components/CreateBlog/Blog';
 import BlogContent from './Components/CreateBlog/BlogPage';
@@ -10,7 +11,9 @@ import MyBlogs from './Components/MyBlogs/MyBlogs';
 import BlogPage from './Components/CreateBlog/BlogPage';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Manage login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [blogs,setBlogs] = useState([]);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleLogin = (email) => {
     setIsLoggedIn(true);
@@ -31,6 +34,18 @@ const App = () => {
   useEffect(() => {
     checkLoginStatus();
   }, []);
+  useEffect(() => {
+    const fetchAllBlogs = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/posts/`);
+        setBlogs(response.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchAllBlogs(); 
+  }, []);
 
   return (
     <Router>
@@ -42,14 +57,14 @@ const App = () => {
           />
           <Route
             path="/"
-            element={<LandingPage isLoggedIn={isLoggedIn} handleLogout={handleLogout} />}
+            element={<LandingPage blogs={blogs} isLoggedIn={isLoggedIn} handleLogout={handleLogout} />}
           />
           {/* Pass isLoggedIn and handleLogout to Blog component */}
           <Route
             path="/CreateBlog"
             element={isLoggedIn ? <Blog isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> : <Navigate to="/login" />}
           />
-          <Route path="/BlogPage/:id" element={<BlogPage isLoggedIn={isLoggedIn} handleLogout={handleLogout} />} />
+          <Route path="/BlogPage/:id" element={<BlogPage blogs={blogs} isLoggedIn={isLoggedIn} handleLogout={handleLogout} />} />
           <Route path='/my-blogs' element={<MyBlogs isLoggedIn={isLoggedIn} handleLogin={handleLogin} handleLogout={handleLogout} />}></Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

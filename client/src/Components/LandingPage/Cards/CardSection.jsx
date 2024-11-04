@@ -100,20 +100,8 @@ export const cards = [
 ];
 
 
-function CardSection() {
-  const [blogs,setBlogs] = useState([])
+function CardSection({blogs}) {
   const navigate= useNavigate();
-  const fetchAllBlogs =async (event) => {
-    try {
-      const response = await axios.get(`${apiUrl}/posts/`);
-      setBlogs(response.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-  useEffect(() => { 
-    fetchAllBlogs();  
-  }, []);
   return (
     <section className="card-section">
       <h2 className="section-title">Latest Reads</h2>

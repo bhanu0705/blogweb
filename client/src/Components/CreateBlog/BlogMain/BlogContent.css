@@ -53,7 +53,6 @@
   }
   
   .sidebar {/* Adjust the height as needed */
-    overflow-y: auto;
     width: 400px;
     flex: 1;
     padding: 20px;
@@ -85,14 +84,15 @@
   }
   
   .sidebar ul li {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     padding: 10px;
     transition: background-color 0.3s ease-in-out;
     border-radius: 4px;
   }
   
   .sidebar ul li:hover {
-    background-color: #f0f0f0;
+    background-color: #eeecec;
+    border-radius: 8px;
   }
   
   .sidebar ul li a {
@@ -145,7 +145,6 @@
   .icon {
     margin-right: 5%;
   }
-  
   .edit-modal {
     position: fixed;
     top: 50%;
@@ -183,15 +182,26 @@
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
+  .content-edit{
+    height:25vh;
+  }
+  .edit-modal .buttons-container { /* Add a container for buttons */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    margin-top: 1rem; /* Add some space above the buttons */
+  }
   .edit-modal button {
     margin-right: 8px;
+    margin-bottom: 8px;
     padding: 10px 15px;
     background-color: #4caf50;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    
   }
   
   .edit-modal button[type="button"] {
