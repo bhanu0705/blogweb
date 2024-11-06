@@ -2,21 +2,20 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 200px; /* Added padding for better spacing */
-  min-height: 100vh; /* Ensure it takes full height for centering */
-  background-color: #f0f0f0; /* Optional background for contrast */
+  padding: 200px;
+  min-height: 100vh;
+  background-color: #f0f0f0;
 }
 
 .comment-box {
   display: grid;
-  grid-template-columns: 1fr; /* Single column layout */
-  gap: 20px; /* Space between grid items */
-  max-width: 100%; /* Limit width of the comment box */
-  margin-left: 40px; /* Adjust margin as needed */
-  margin-right:40px;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 100%;
+  margin-left: 40px;
+  margin-right: 40px;
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
   padding: 20px;
   border-radius: 8px;
 }
@@ -40,29 +39,12 @@
   margin-bottom: 15px;
 }
 
-.comment-box input {
-  flex: 1; /* Allow input fields to grow */
-  padding: 10px;
-  margin-right: 10px; /* Space between inputs */
-  border: 2px solid #cccccc;
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-  background-color: #f0f0f0;
-}
-
-.comment-box input:last-child {
-  margin-right: 0; /* Remove margin from the last input */
-}
-
-.comment-box textarea {
+.comment-box input, .comment-box textarea {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border: 2px solid #cccccc;
   border-radius: 4px;
   font-size: 16px;
-  box-sizing: border-box;
   background-color: #f0f0f0;
 }
 
@@ -85,7 +67,7 @@
   text-align: left;
   padding: 10px;
   margin-top: 20px;
-  margin-left: 37px; 
+  margin-left: 37px;
 }
 
 .comment {
@@ -107,7 +89,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 90%;
-  word-wrap: break-word;
+  position: relative;
 }
 
 .comment-content h4 {
@@ -120,4 +102,41 @@
   margin: 10px 0 0;
   font-size: 16px;
   color: #666;
+}
+
+.options-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.three-dots {
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+}
+
+.options-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+}
+
+.delete-button:hover {
+  background-color: #ffcccc;
 }
