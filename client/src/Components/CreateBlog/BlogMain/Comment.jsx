@@ -37,7 +37,6 @@ const Comment = ({blogContent}) => {
           createdAt: new Date().toISOString()
         }
       ]);
-
       setName('');
       setCommentContent('');
     } catch (error) {
@@ -69,7 +68,7 @@ const Comment = ({blogContent}) => {
     };
 
     fetchComments();
-  }, [postID]);
+  }, [postID,handleSubmit]);
 
   return (
     <div>
@@ -121,7 +120,6 @@ const Comment = ({blogContent}) => {
                   </span>
                   )
                   }
-
                   {showOptions === comment._id && (
                     <div className="options-menu">
                       <button className="delete-button" onClick={() => handleDelete(comment._id)}>
