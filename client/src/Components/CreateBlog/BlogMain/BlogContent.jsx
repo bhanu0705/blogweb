@@ -120,7 +120,7 @@ const BlogContent = ({blogs}) => {
             {blogContent.author} | {date}
           </p>
           <div className='mainContent' dangerouslySetInnerHTML={{ __html: blogContent.content }}></div>
-        <Comment/>
+        <Comment blogContent ={blogContent}/>
  </div>
 
 
