@@ -49,7 +49,7 @@ const Comment = ({blogContent}) => {
   const handleDelete = async (commentID) => {
     try {
       await axios.delete(`${apiUrl}/posts/${postID}/comments/${commentID}`);
-      setComments(comments.filter(comment => comment._id !== commentID));
+      setComments((prevComments) => prevComments.filter(comment => comment._id !== commentID));
       toast.success('Comment deleted successfully!');
     } catch (error) {
       toast.error('Failed to delete comment!');
@@ -68,7 +68,7 @@ const Comment = ({blogContent}) => {
     };
 
     fetchComments();
-  }, [postID,handleSubmit]);
+  }, [postID]);
 
   return (
     <div>
