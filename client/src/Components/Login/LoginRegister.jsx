@@ -14,7 +14,8 @@ function LoginRegister({onLogin}) {
     name: '',
     email: '',
     password: '',
-    confirmPassword:''
+    confirmPassword:'',
+    role:'user'
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -34,6 +35,9 @@ function LoginRegister({onLogin}) {
       navigate('/'); // Redirect to the landing page
       localStorage.setItem('userEmail', loginData.email); 
       localStorage.setItem('isLoggedin', true);
+      const role = response.data.role;
+      localStorage.setItem('role', role);
+      console.log(localStorage.getItem('role'));
       console.log(localStorage.getItem('userEmail'));
       console.log(localStorage.getItem('isLoggedin'));
     } catch (error) {
@@ -51,6 +55,9 @@ function LoginRegister({onLogin}) {
     try {
       const response = await axios.post('http://localhost:5000/register', registerData);
       console.log(response.data); // Handle success (store token, redirect, etc.)
+      const role = response.data.user.role;
+      localStorage.setItem('role',role);
+      console.log(localStorage.getItem('role'));
       onLogin(registerData.email); // Pass the email to the onLogin function
       navigate('/'); // Redirect to the landing page
     } catch (error) {

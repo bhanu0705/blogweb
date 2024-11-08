@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const role = localStorage.getItem('role');
 
 const Comment = ({blogContent}) => { 
   const [name, setName] = useState('');
@@ -18,25 +19,37 @@ const Comment = ({blogContent}) => {
   const handleNameChange = (event) => setName(event.target.value);
   const handleCommentContentChange = (event) => setCommentContent(event.target.value);
 
+  const commentData = { username: name, comment: commentContent };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const commentData = { username: name, comment: commentContent };
     toast.loading('Submitting...');
 
     try {
       const response = await axios.post(`${apiUrl}/posts/${postID}/comments/`, commentData);
+      console.log(comments);
       toast.dismiss();
       toast.success('Submitted successfully!');
 
       // Add the new comment to the comments list with the ID from the server response
-      setComments((prevComments) => [
-        ...prevComments, 
-        {
-          ...commentData,
-          _id: response.data._id, 
-          createdAt: new Date().toISOString()
-        }
-      ]);
+      // setComments((prevComments) => [
+      //   ...prevComments, 
+      //   {
+      //     ...commentData,
+      //     _id: response.data._id, 
+      //     createdAt: new Date().toISOString()
+      //   }
+      // ]);
+
+      const newComment = {
+        ...commentData,
+        _id: response.data._id,
+        createdAt: new Date().toISOString()
+      };
+  
+      setComments((prevComments)=>[...prevComments, newComment]);
+
+      console.log(comments);
       setName('');
       setCommentContent('');
     } catch (error) {
@@ -48,7 +61,10 @@ const Comment = ({blogContent}) => {
 
   const handleDelete = async (commentID) => {
     try {
-      await axios.delete(`${apiUrl}/posts/${postID}/comments/${commentID}`);
+      await axios.delete(`${apiUrl}/posts/${postID}/comments/${commentID}`, {
+                  data: { role: role , userEmail: userEmail},
+                });
+      // setComments(comments.filter(comment => comment._id !== commentID));
       setComments((prevComments) => prevComments.filter(comment => comment._id !== commentID));
       toast.success('Comment deleted successfully!');
     } catch (error) {
@@ -56,6 +72,9 @@ const Comment = ({blogContent}) => {
       console.error('Error:', error);
     }
   };
+
+
+  
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -66,6 +85,7 @@ const Comment = ({blogContent}) => {
         console.error('Error fetching comments:', error);
       }
     };
+    
 
     fetchComments();
   }, [postID]);
@@ -110,7 +130,7 @@ const Comment = ({blogContent}) => {
                 <p>{comment.comment}</p>
                 
                 <div className="options-container">
-                {blogContent.email == userEmail && (
+                {(blogContent.email == userEmail || role === "admin" ) && (
 
                   <span 
                     className="three-dots" 
@@ -120,7 +140,7 @@ const Comment = ({blogContent}) => {
                   </span>
                   )
                   }
-                  {showOptions === comment._id && (
+                  {(showOptions === comment._id ) && (
                     <div className="options-menu">
                       <button className="delete-button" onClick={() => handleDelete(comment._id)}>
                         Delete

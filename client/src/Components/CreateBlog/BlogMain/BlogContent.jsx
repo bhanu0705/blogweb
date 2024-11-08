@@ -6,6 +6,8 @@ import axios from 'axios';
 import Comment from './Comment';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const adminEmail = 'v.harshavinay5@gmail.com';
+const role = localStorage.getItem('role');
 
 const BlogContent = ({blogs}) => {
   const { id } = useParams(); // Get the card ID from the route parameter
@@ -19,6 +21,7 @@ const BlogContent = ({blogs}) => {
     content: ''
   });
   const userEmail = localStorage.getItem('userEmail');
+
   console.log(blogs);
   const fetchPost = async () => {
     try {
@@ -68,7 +71,7 @@ const BlogContent = ({blogs}) => {
     if (confirmed) {
       try {
         const response = await axios.delete(`${apiUrl}/posts/${id}`, {
-          data: { email: userEmail } // Send the user's email in the request body
+          data: { email: userEmail, role: role }, // Send the user's email in the request body
         });
         if (response.status === 200) {
           alert('Post deleted successfully!');
@@ -99,12 +102,12 @@ const BlogContent = ({blogs}) => {
           <div className='blog-title-bar'>
             <span className='blog-title'><h2>{blogContent.title}</h2></span>
             <span className='icon'>
-              {blogContent.email === userEmail &&
+              {(blogContent.email === userEmail) && (
               <span className="edit-icon" onClick={handleEditClick}>
                 <i className="fas fa-edit"></i>
               </span>
-              }
-              {blogContent.email === userEmail && (
+              )}
+              {(blogContent.email === userEmail || userEmail || role === "admin" ) && (
                 <span className="delete-icon" onClick={deletePost}>
                   <i className="fas fa-trash"></i>
                 </span>
