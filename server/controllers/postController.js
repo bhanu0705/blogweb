@@ -92,7 +92,7 @@ exports.updatePost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
   const postId = req.params.id;
-  const userEmail = req.body.email; // Email of the user requesting the delete
+  const {userEmail, role} = req.body; // Email of the user requesting the delete
 
   try {
     const post = await Post.findById(postId);
@@ -101,7 +101,7 @@ exports.deletePost = async (req, res) => {
     }
 
     // Check if the current user is the author of the post
-    if (post.email !== userEmail) {
+    if (post.email !== userEmail && role !== "admin") {
       return res.status(403).json({ message: 'You do not have permission to delete this post' });
     }
 

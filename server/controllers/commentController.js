@@ -55,6 +55,12 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   try {
     const { postId, commentId } = req.params;
+    const {role, userEmail} = req.body;
+    const post = await Post.findById(postId);
+
+    if(role !="admin" || post.email == userEmail ) {
+      return res.status(404).json({ message: 'No access to delete'});
+    }
 
     // Check if comment exists
     const comment = await Comment.findById(commentId);
@@ -63,7 +69,6 @@ exports.deleteComment = async (req, res) => {
     }
 
     // Check if post exists
-    const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }

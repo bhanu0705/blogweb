@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import Comment from "../CreateBlog/BlogMain/Comment";
 
 const apiUrl = import.meta.env.VITE_API_URL
-const adminEmail = 'v.harshavinay5@gmail.com';
 
 const MyBlogs = ({ isLoggedIn, handleLogout }) => {
     const [myPosts, setMyPosts] = useState([]);
@@ -23,7 +22,6 @@ const MyBlogs = ({ isLoggedIn, handleLogout }) => {
                 const response = await axios.get(`${apiUrl}/posts/my-blogs`, {
                     params: {
                         email: userEmail, // Pass the email in query parameters
-                        adminEmail,
                     },
                 });
 
