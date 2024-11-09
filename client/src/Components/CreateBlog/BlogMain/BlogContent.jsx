@@ -6,7 +6,6 @@ import axios from 'axios';
 import Comment from './Comment';
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const adminEmail = 'v.harshavinay5@gmail.com';
 const role = localStorage.getItem('role');
 
 const BlogContent = ({blogs}) => {
@@ -107,7 +106,7 @@ const BlogContent = ({blogs}) => {
                 <i className="fas fa-edit"></i>
               </span>
               )}
-              {(blogContent.email !== userEmail && role === "admin" ) && (
+              {(blogContent.email === userEmail || role === "admin" ) && (
                 <span className="delete-icon" onClick={deletePost}>
                   <i className="fas fa-trash"></i>
                 </span>
