@@ -58,8 +58,8 @@ exports.deleteComment = async (req, res) => {
     const {role, userEmail} = req.body;
     const post = await Post.findById(postId);
 
-    if(role !="admin" || post.email == userEmail ) {
-      return res.status(404).json({ message: 'No access to delete'});
+    if(role =="admin" && post.email == userEmail ) {
+      return res.status(404).json({ message: 'No access to delete',role:role,email:userEmail,emai:post.email});
     }
 
     // Check if comment exists

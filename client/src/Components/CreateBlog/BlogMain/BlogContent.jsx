@@ -107,7 +107,7 @@ const BlogContent = ({blogs}) => {
                 <i className="fas fa-edit"></i>
               </span>
               )}
-              {(blogContent.email === userEmail || userEmail || role === "admin" ) && (
+              {(blogContent.email !== userEmail && role === "admin" ) && (
                 <span className="delete-icon" onClick={deletePost}>
                   <i className="fas fa-trash"></i>
                 </span>

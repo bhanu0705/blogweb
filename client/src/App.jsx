@@ -59,7 +59,6 @@ const App = () => {
             path="/"
             element={<LandingPage blogs={blogs} isLoggedIn={isLoggedIn} handleLogout={handleLogout} />}
           />
-          {/* Pass isLoggedIn and handleLogout to Blog component */}
           <Route
             path="/CreateBlog"
             element={isLoggedIn ? <Blog isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> : <Navigate to="/login" />}

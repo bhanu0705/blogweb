@@ -20,6 +20,14 @@ const Comment = ({blogContent}) => {
   const handleCommentContentChange = (event) => setCommentContent(event.target.value);
 
   const commentData = { username: name, comment: commentContent };
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/posts/${postID}/comments/`);
+      setComments(response.data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,17 +38,8 @@ const Comment = ({blogContent}) => {
       console.log(comments);
       toast.dismiss();
       toast.success('Submitted successfully!');
-
-      // Add the new comment to the comments list with the ID from the server response
-      // setComments((prevComments) => [
-      //   ...prevComments, 
-      //   {
-      //     ...commentData,
-      //     _id: response.data._id, 
-      //     createdAt: new Date().toISOString()
-      //   }
-      // ]);
-
+      fetchComments();
+      
       const newComment = {
         ...commentData,
         _id: response.data._id,
@@ -64,7 +63,6 @@ const Comment = ({blogContent}) => {
       await axios.delete(`${apiUrl}/posts/${postID}/comments/${commentID}`, {
                   data: { role: role , userEmail: userEmail},
                 });
-      // setComments(comments.filter(comment => comment._id !== commentID));
       setComments((prevComments) => prevComments.filter(comment => comment._id !== commentID));
       toast.success('Comment deleted successfully!');
     } catch (error) {
@@ -73,20 +71,7 @@ const Comment = ({blogContent}) => {
     }
   };
 
-
-  
-
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/posts/${postID}/comments/`);
-        setComments(response.data);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
-    
-
     fetchComments();
   }, [postID]);
 
