@@ -99,7 +99,6 @@ export const cards = [
   },
 ];
 
-
 function CardSection({blogs}) {
   const navigate= useNavigate();
   return (

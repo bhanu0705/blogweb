@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './BlogContent.css';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { cards} from '../../LandingPage/Cards/CardSection';
@@ -7,7 +7,6 @@ import Comment from './Comment';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const role = localStorage.getItem('role');
-
 const BlogContent = ({blogs}) => {
   const { id } = useParams(); // Get the card ID from the route parameter
   const navigate = useNavigate(); // Hook for navigation
@@ -20,7 +19,9 @@ const BlogContent = ({blogs}) => {
     content: ''
   });
   const userEmail = localStorage.getItem('userEmail');
-
+const [showDropdown, setShowDropdown] = useState(false);
+const [showShareMenu, setShowShareMenu] = useState(false);
+const dropdownRef = useRef(null);
   console.log(blogs);
   const fetchPost = async () => {
     try {
@@ -82,23 +83,42 @@ const BlogContent = ({blogs}) => {
       }
     }
   };
+const handleShare = () => {
+    setShowShareMenu(!showShareMenu);
+  };
 
+  const copyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert('URL copied to clipboard!');
+  };
   useEffect(() => {
     fetchPost();
   }, [id]);
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return   
+() => document.removeEventListener('mousedown', handleClickOutside);
+}, [dropdownRef]);
 
   if (!blogContent) {
     return <p>No data found....</p>;
   }
 
   return (
-    <div className='blog-content-container'>
-      <div className='blogContent'>
+   <div className='blog-content-container'>
+     <div className='blogContent'>
         <div className='details'>
           <div className='blog-img'>
             <img src={blogContent.imageUrl || cards[0].cover} alt="Thumbnail Image" />
           </div>
-          <div className='blog-title-bar'>
+
+{/*           <div className='blog-title-bar'>
             <span className='blog-title'><h2>{blogContent.title}</h2></span>
             <span className='icon'>
               {(blogContent.email === userEmail) && (
@@ -118,13 +138,45 @@ const BlogContent = ({blogs}) => {
               <i className="fas fa-user"></i>
             </span>
             {blogContent.author} | {date}
-          </p>
+          </p> */}
+          <div className="blog-title-row">
+            <h2 className="blog-title">{blogContent.title}</h2>
+            <div className="title-end">
+              <span className="author-date">
+                <span className="user-icon">
+                  <i className="fas fa-user"></i>
+                </span>
+                {blogContent.author} | {date}
+              </span>
+              <div className="dropdown-container" ref={dropdownRef}>
+                <span className="three-dot-icon" onClick={() => setShowDropdown(!showDropdown)}>
+                  <i className="fas fa-ellipsis-h"></i>
+                </span>
+                {showDropdown && (
+                  <div className="dropdown-menu">
+                    {(blogContent.email === userEmail) && (
+                    <button onClick={handleEditClick}>Edit</button> )}
+                    {(blogContent.email === userEmail || role === "admin" ) && (
+                    <button onClick={deletePost}>Delete</button>)}
+                    <button onClick={handleShare}>Share</button>
+                    {showShareMenu && (
+                      <div className="share-options">
+                        <a href={`https://wa.me/?text=${encodeURIComponent(window.location.href)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        <a href={`https://telegram.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(blogContent.title)}`} target="_blank" rel="noopener noreferrer">Telegram</a>
+                        <a href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(blogContent.title)}`} target="_blank" rel="noopener noreferrer">Twitter</a>
+                        <button onClick={copyUrl}>Copy URL</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className='mainContent' dangerouslySetInnerHTML={{ __html: blogContent.content }}></div>
         <Comment blogContent ={blogContent}/>
- </div>
-
-
-    </div>
+        </div>
+     </div>
       <div className='sidebar'>
         <h3>Latest Reads</h3>
         <ul>

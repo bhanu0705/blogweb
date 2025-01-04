@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Comment.css';
 import toast from 'react-hot-toast';
 import axios from 'axios';
@@ -14,6 +14,7 @@ const Comment = ({blogContent}) => {
   const [comments, setComments] = useState([]);
   const [showOptions, setShowOptions] = useState(null); // Track which comment's options are open
   const { id: postID } = useParams();
+  const optionsRef = useRef(null);
   const userEmail = localStorage.getItem("userEmail");
 
   const handleNameChange = (event) => setName(event.target.value);
@@ -74,6 +75,17 @@ const Comment = ({blogContent}) => {
   useEffect(() => {
     fetchComments();
   }, [postID]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+        setShowOptions(null); // Close options menu
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);   
+
+  }, [optionsRef]);
 
   return (
     <div>
@@ -114,9 +126,8 @@ const Comment = ({blogContent}) => {
                 <h4>{comment.username}</h4>
                 <p>{comment.comment}</p>
                 
-                <div className="options-container">
+                <div className="options-container" ref={optionsRef}>
                 {(blogContent.email == userEmail || role === "admin" ) && (
-
                   <span 
                     className="three-dots" 
                     onClick={() => setShowOptions(showOptions === comment._id ? null : comment._id)}
