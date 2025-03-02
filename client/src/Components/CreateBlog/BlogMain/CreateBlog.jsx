@@ -38,7 +38,9 @@ function CreateBlog() {
             return;
         }
 
-        const blogPrompt = `generate a JSON object where key is "blog" and value is a 1000 words single line string about a blog on ${aiTitle} dont create paragraphs just generate a single line string no new lines`;
+        // const blogPrompt = `generate a JSON object where key is "blog" and value is a 1000 words single line string about a blog on ${aiTitle} dont create paragraphs just generate a single line string no new lines`;
+        // const blogPrompt = `generate a JSON object where key is "blog" and value is a 1000 words single line string about a blog on ${aiTitle}.  Ensure it is valid JSON, properly escaped, and contains no newline characters (\n).`;
+        const blogPrompt = `generate a JSON object where key is "blog" and value is a 1000 words single line string about a blog on ${aiTitle}.  Ensure it is valid JSON, properly escaped, and contains no newline characters (\n).  Return ONLY the JSON object, do NOT include any markdown code blocks (like backticks followed by json) `;
         await fetchBlogContent(blogPrompt);
         await fetchBlogImages(aiTitle);
 
@@ -52,7 +54,30 @@ function CreateBlog() {
             const result = await model.generateContent(prompt);
             const response = result.response;
             const text = await response.text();
-            setAiBlogContent(JSON.parse(text));
+            //setAiBlogContent(JSON.parse(text));
+            try {
+                // Attempt to parse the entire response as JSON
+                const parsedResponse = JSON.parse(text);
+        
+                // Check if the 'blog' key exists in the parsed JSON and is a string
+                if (parsedResponse && typeof parsedResponse.blog === 'string') {
+                    setAiBlogContent(parsedResponse); // Assuming you want the whole object
+                    console.log("AI Blog Content:", parsedResponse); // Log the entire object
+                } else {
+                    // If the 'blog' key is missing or not a string, something went wrong.
+                    console.error("AI response is missing the 'blog' key or 'blog' is not a string:", parsedResponse);
+                    setAiBlogContent({ error: "Invalid AI response: Missing 'blog' or incorrect format." }); // Set an error state
+                    toast.error("Invalid AI response format.");
+                }
+        
+            } catch (jsonError) {
+                // If parsing fails, log the error and the raw text, then set an error state.
+                console.error("Error parsing AI response as JSON:", jsonError);
+                console.error("Raw AI response text:", text);  // Log the raw response for debugging!
+                setAiBlogContent({ error: "Failed to parse AI response as JSON." });
+                toast.error("Failed to parse AI response.");
+            }
+            
         } catch (error) {
             console.error("Error fetching blog content:", error);
             toast.error("Error fetching blog content.");
